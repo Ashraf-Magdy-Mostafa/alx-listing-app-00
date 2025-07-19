@@ -1,34 +1,63 @@
-import type { NextPage } from 'next';
-import Head from 'next/head';
-import Card from '../components/common/Card';
-import Button from '../components/common/Button';
-import { PLACEHOLDER_IMAGE, APP_NAME } from '../constants';
+import { PROPERTYLISTINGSAMPLE } from "@/constants";
+import { PropertyProps } from "@/interfaces";
+import Image from "next/image";
 
-const Home: NextPage = () => (
-  <>
-    <Head>
-      <title>{APP_NAME}</title>
-      <meta name="description" content="ALX Listing App - Airbnb clone foundational structure" />
-    </Head>
-    <main className="min-h-screen p-8">
-      <h1 className="text-3xl font-bold mb-6">{APP_NAME}</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <Card
-          title="Sample Property"
-          imageSrc={PLACEHOLDER_IMAGE}
-          description="A cozy place to stay."
-          onClick={() => alert('Card clicked!')}
-        />
-      </div>
-      <div className="mt-6">
-        <Button
-          label="Click Me"
-          onClick={() => alert('Button clicked!')}
-          variant="primary"
-        />
-      </div>
-    </main>
-  </>
-);
+// Hero Section Background (replace with your real image import or URL)
+const heroBg = "https://source.unsplash.com/1600x500/?vacation,resort";
+
+const filters = ["Top Villa", "Self Checkin", "Beachfront", "Mountain View", "Pet Friendly"];
+
+const Home = () => {
+  return (
+    <div>
+      {/* Hero Section */}
+      <section
+        className="bg-cover bg-center h-[300px]">
+        <div
+          className="h-full w-full bg-black bg-opacity-50 flex flex-col justify-center items-center text-white"
+          style={{ backgroundImage: `url('${heroBg}')`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}
+        >
+          <h1 className="text-3xl md:text-5xl font-bold">Find your favorite place here!</h1>
+          <p className="text-lg mt-2">The best prices for over 2 million properties worldwide.</p>
+        </div>
+      </section>
+
+      {/* Filters */}
+      <section className="my-6 px-4 flex flex-wrap gap-4 justify-center">
+        {filters.map((filter, idx) => (
+          <span
+            key={idx}
+            className="px-4 py-2 bg-gray-200 text-sm rounded-full hover:bg-blue-500 hover:text-white transition"
+          >
+            {filter}
+          </span>
+        ))}
+      </section>
+
+      {/* Listings */}
+      <section className="px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+        {PROPERTYLISTINGSAMPLE.map((property, i) => (
+          <div key={i} className="border rounded overflow-hidden shadow-md hover:shadow-lg transition">
+            <img
+              src={property.image}
+              alt={property.name}
+              className="h-48 w-full object-cover"
+            />
+            <div className="p-4">
+              <div className="flex justify-between items-center mb-2">
+                <h3 className="text-lg font-bold">{property.name}</h3>
+                <span className="text-sm bg-yellow-100 px-2 rounded">{property.rating} ★</span>
+              </div>
+              <p className="text-gray-600 text-sm mb-2">
+                {property.address.city}, {property.address.country}
+              </p>
+              <p className="font-semibold">${property.price.toLocaleString()}</p>
+            </div>
+          </div>
+        ))}
+      </section>
+    </div>
+  );
+};
 
 export default Home;
