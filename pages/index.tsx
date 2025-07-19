@@ -1,6 +1,9 @@
 import { PROPERTYLISTINGSAMPLE } from "@/constants";
 import { PropertyProps } from "@/interfaces";
 import Image from "next/image";
+import Pill from "@/components/Pill";
+import { useState } from "react";
+
 
 // Hero Section Background (replace with your real image import or URL)
 const heroBg = "https://source.unsplash.com/1600x500/?vacation,resort";
@@ -8,6 +11,11 @@ const heroBg = "https://source.unsplash.com/1600x500/?vacation,resort";
 const filters = ["Top Villa", "Self Checkin", "Beachfront", "Mountain View", "Pet Friendly"];
 
 const Home = () => {
+  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
+  const handleFilterClick = (filter: string) => {
+    setSelectedFilter(filter === selectedFilter ? null : filter); // toggle active
+  };
+
   return (
     <div>
       {/* Hero Section */}
@@ -25,12 +33,12 @@ const Home = () => {
       {/* Filters */}
       <section className="my-6 px-4 flex flex-wrap gap-4 justify-center">
         {filters.map((filter, idx) => (
-          <span
-            key={idx}
-            className="px-4 py-2 bg-gray-200 text-sm rounded-full hover:bg-blue-500 hover:text-white transition"
-          >
-            {filter}
-          </span>
+          <Pill
+            key={filter}
+            label={filter}
+            selected={selectedFilter === filter}
+            onClick={handleFilterClick}
+          />
         ))}
       </section>
 
